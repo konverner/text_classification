@@ -1,0 +1,19 @@
+text_classifier:
+    _target_: ...
+    model_path: ...
+    tokenizer_path: ...
+    labels:
+        - "Positif"
+        - "Négatif"
+    device: "cpu"
+
+text_preprocessor:
+    _target_: ...
+    language: "english"
+
+api:
+    version: "1.0.0"
+    title: "WNUT 17 NER API"
+    description: "NER API"
+    host: "localhost"
+    port: 8000
