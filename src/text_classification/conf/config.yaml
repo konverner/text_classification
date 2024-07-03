@@ -1,19 +1,19 @@
 text_classifier:
-    _target_: ...
-    model_path: ...
-    tokenizer_path: ...
+    _target_: text_classification.core.classifiers.TextClassifier
+    model_path: "../../models/lstm_sentiment/model.keras"
+    tokenizer_path: "../../models/lstm_sentiment/tokenizer.pickle"
     labels:
         - "Positif"
         - "Négatif"
     device: "cpu"
 
 text_preprocessor:
-    _target_: ...
+    _target_: text_classification.core.preprocessing.TextPreprocessor
     language: "english"
 
 api:
     version: "1.0.0"
-    title: "WNUT 17 NER API"
-    description: "NER API"
+    title: "Sentiment Analysis API"
+    description: "API for sentiment analysis"
     host: "localhost"
     port: 8000
