@@ -28,15 +28,15 @@ class TextPreprocessor:
         stem (bool): A flag to indicate whether to apply stemming.
     """
 
-    def __init__(self, stem: bool = False):
+    def __init__(self, stem: bool = False, language: str = 'english'):
         """
         Initializes the TextPreprocessor with the option to apply stemming.
 
         Args:
             stem (bool): If True, apply stemming to the tokens. Default is False.
         """
-        self.stop_words: List[str] = stopwords.words('english')
-        self.stemmer: SnowballStemmer = SnowballStemmer('english')
+        self.stop_words: List[str] = stopwords.words(language)
+        self.stemmer: SnowballStemmer = SnowballStemmer(language)
         self.text_cleaning_re: str = r"@\S+|https?:\S+|http?:\S|[^A-Za-z0-9]+"
         self.stem: bool = stem
 
