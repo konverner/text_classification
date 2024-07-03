@@ -24,7 +24,9 @@ classifiers = [  #
 dependencies = [
     "omegaconf",
     "pydantic<2.0.0",
-    "nltk~=3.8.1"
+    "hydra-core~=1.3.2",
+    "nltk~=3.8.1",
+    "tensorflow~=2.5.0"
 ]
 
 [project.optional-dependencies]
