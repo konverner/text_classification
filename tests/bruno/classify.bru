@@ -1,0 +1,17 @@
+meta {
+  name: classify
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{base_url}}/classify
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "text": "I hate this movie"
+  }
+}
