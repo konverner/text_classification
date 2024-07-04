@@ -31,12 +31,12 @@ dependencies = [
 
 [project.optional-dependencies]
 all = [
-    "pytest",
-    "mypy",
-    "ruff",
-    "pre-commit",
-    "mkdocs-material",
-    "mkdocstrings[python]",
+    "pytest",  # testing framework
+    "mypy",  # static type checker
+    "ruff",  # linter and formatter
+    "pre-commit",  # managing and maintaining pre-commit hooks
+    "mkdocs-material",  # static site generator geared towards project documentation
+    "mkdocstrings[python]",  # mkdocstrings is a MkDocs plugin that generates documentation from docstrings
 ]
 test = ["pytest"]
 docs = ["mkdocs-material", "mkdocstrings[python]"]
