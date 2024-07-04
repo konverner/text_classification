@@ -1,21 +1,13 @@
-"""
-This module contains tools for text preprocessing, including cleaning,
-tokenizing, removing stopwords, and stemming. The main class provided is
-`TextPreprocessor`, which offers methods for preprocessing text data.
-
-Usage Example:
-    preprocessor = TextPreprocessor(stem=True)
-    clean_text = preprocessor.preprocess("Your raw tweet text here")
-"""
-
 import re
 from typing import List
+
 import nltk
 from nltk.corpus import stopwords
 from nltk.stem import SnowballStemmer
 
 # Download the stopwords from NLTK
-nltk.download('stopwords')
+nltk.download("stopwords")
+
 
 class TextPreprocessor:
     """
@@ -28,7 +20,7 @@ class TextPreprocessor:
         stem (bool): A flag to indicate whether to apply stemming.
     """
 
-    def __init__(self, stem: bool = False, language: str = 'english'):
+    def __init__(self, stem: bool = False, language: str = "english"):
         """
         Initializes the TextPreprocessor with the option to apply stemming.
 
@@ -51,7 +43,7 @@ class TextPreprocessor:
         Returns:
             str: The preprocessed text.
         """
-        text = re.sub(self.text_cleaning_re, ' ', text.lower()).strip()
+        text = re.sub(self.text_cleaning_re, " ", text.lower()).strip()
         tokens: List[str] = []
         for token in text.split():
             if token not in self.stop_words:
