@@ -1,5 +1,5 @@
 text_classifier:
-    _target_: text_classification.core.classifiers.TextClassifier
+    _target_: text_classification.core.classifier.TextClassifier
     model_path: "./models/lstm_sentiment/model.keras"
     tokenizer_path: "./models/lstm_sentiment/tokenizer.pickle"
     labels:
@@ -7,7 +7,7 @@ text_classifier:
         - "Positif"
 
 text_preprocessor:
-    _target_: text_classification.core.preprocessing.TextPreprocessor
+    _target_: text_classification.core.preprocessor.TextPreprocessor
     language: "english"
 
 api:
