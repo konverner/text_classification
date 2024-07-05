@@ -1,3 +1,28 @@
+"""
+This module provides functionality for text preprocessing, including cleaning, tokenizing,
+removing stopwords, and optionally stemming text. It leverages the Natural Language Toolkit (nltk)
+for stopword removal and stemming.
+
+Typical usage example:
+    To use the TextPreprocessor class, first create an instance of the class, then call the
+    `preprocess` method with the text you want to preprocess.
+
+    ```python
+    from text_preprocessor import TextPreprocessor
+
+    # Create a TextPreprocessor instance
+    preprocessor = TextPreprocessor(stem=True)
+
+    # Text to preprocess
+    text = "Check out this link: https://example.com. It's an amazing website! #awesome"
+
+    # Preprocess the text
+    processed_text = preprocessor.preprocess(text)
+
+    print(processed_text)
+    # Output: check amaz websit
+"""
+
 import re
 from typing import List
 
@@ -14,10 +39,10 @@ class TextPreprocessor:
     A class used to preprocess text by cleaning, tokenizing, removing stopwords, and optionally stemming.
 
     Attributes:
-        stop_words (List[str]): A list of stopwords to be removed from the text.
-        stemmer (SnowballStemmer): A stemmer used to reduce words to their root form.
-        text_cleaning_re (str): A regular expression pattern for cleaning text.
-        stem (bool): A flag to indicate whether to apply stemming.
+        stop_words: A list of stopwords to be removed from the text.
+        stemmer: A stemmer used to reduce words to their root form.
+        text_cleaning_re: A regular expression pattern for cleaning text.
+        stem: A flag to indicate whether to apply stemming.
     """
 
     def __init__(self, stem: bool = False, language: str = "english"):
@@ -38,10 +63,10 @@ class TextPreprocessor:
         removing stopwords, and optionally applying stemming.
 
         Args:
-            text (str): The input text to preprocess.
+            text: The input text to preprocess.
 
         Returns:
-            str: The preprocessed text.
+            The preprocessed text.
         """
         text = re.sub(self.text_cleaning_re, " ", text.lower()).strip()
         tokens: List[str] = []

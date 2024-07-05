@@ -1,10 +1,28 @@
+"""
+This module provides the `TextClassifier` class for text classification using TensorFlow and a pre-trained model.
+
+Typical usage example:
+
+    model_path = 'path/to/model.keras'
+    tokenizer_path = 'path/to/tokenizer.pickle'
+    labels = ['negative', 'positive']
+
+    classifier = TextClassifier(model_path, tokenizer_path, labels)
+
+    texts = ["This is a great movie!", "I did not like this film."]
+    predictions = classifier.predict(texts)
+
+    for prediction in predictions:
+        print(f"Label: {prediction['label']}, Score: {prediction['score']}")
+"""
+
 import pickle
 from typing import List
 
 import numpy as np
 import tensorflow as tf
-from tensorflow.keras.preprocessing.text import Tokenizer
 from tensorflow.keras.preprocessing.sequence import pad_sequences
+from tensorflow.keras.preprocessing.text import Tokenizer
 
 
 class TextClassifier:
@@ -16,12 +34,13 @@ class TextClassifier:
         model (tf.keras.Model): The pre-trained Keras model for text classification.
     """
 
-    def __init__(self, model_path: str, tokenizer_path: str, labels: List[str]) -> None:
+    def __init__(self, model_path: str, tokenizer_path: str, labels: List[str]):
         """
         Initialize the TextClassifier with a pre-trained model.
 
         Args:
-            model_path (str): Path to the pre-trained model file.
+            model_path: Path to the pre-trained model file.
+            tokenizer_path: Path to the tokenizer pickle file.
         """
         self.model = self.load_model(model_path)
         self.tokenizer = self.load_tokenizer(tokenizer_path)
@@ -33,12 +52,13 @@ class TextClassifier:
         Load the tokenizer.
 
         Args:
-            tokenizer_path str: Path to the tokenizer.
-        Returns:
+            tokenizer_path: Path to the tokenize.
 
+        Returns:
+            Loaded keras Tokenizer instance.
         """
-        with open(tokenizer_path, 'rb') as handle:
-            tokenizer = pickle.load(handle)
+        with open(tokenizer_path, "rb") as handle:  # noqa: S301
+            tokenizer = pickle.load(handle)  # noqa: S301
         return tokenizer
 
     @staticmethod
@@ -50,7 +70,7 @@ class TextClassifier:
             model_path (str): Path to the model file.
 
         Returns:
-            tf.keras.Model: Loaded Keras model.
+            Loaded Keras model.
         """
         return tf.keras.models.load_model(model_path)
 
@@ -59,11 +79,11 @@ class TextClassifier:
         Transform texts to padded sequences.
 
         Args:
-            texts (List[str]): List of texts to transform.
-            max_sequence_length (int): Maximum length of sequences.
+            texts: List of texts to transform.
+            max_sequence_length: Maximum length of sequences.
 
         Returns:
-            np.ndarray: Padded sequences.
+            Padded sequences.
         """
         sequences = self.tokenizer.texts_to_sequences(texts)
         padded_sequences = pad_sequences(sequences, maxlen=max_sequence_length)
@@ -77,7 +97,8 @@ class TextClassifier:
             texts (List[str]): List of input texts.
 
         Returns:
-            List[dict]: List of prediction results.
+            List of prediction results where each result is a dictionary with label and corresponding score
+            For example: [{'label': 'positive', 'score': 0.42}]
         """
         max_sequence_length = self.model.input_shape[1]
         transformed_texts = self.transform_texts(texts, max_sequence_length)
@@ -87,5 +108,5 @@ class TextClassifier:
             # 1 if score >= 0.5 else 0
             label_index = int(score >= 0.5)
             label = self.labels[label_index]
-            results.append({'label': label, 'score': float(score)})
+            results.append({"label": label, "score": float(score)})
         return results
