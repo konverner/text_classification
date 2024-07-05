@@ -15,3 +15,19 @@ body:json {
     "text": "I hate this movie"
   }
 }
+
+tests {
+  test("I love spam", function() {
+    const data = res.getBody();
+    expect(data.sentiment).to.be.a('string');
+    expect(res.getStatus()).to.equal(200);
+  });
+   
+  test("", function() {
+    expect(res.getStatus()).to.equal(400);
+  });
+  
+  test("spam"*100, function() {
+    expect(res.getStatus()).to.equal(400);
+  });
+}
