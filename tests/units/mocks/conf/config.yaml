@@ -1,7 +1,7 @@
 text_classifier:
     _target_: text_classification.core.classifier.TextClassifier
-    model_path: "./mocks/mock_model.keras"
-    tokenizer_path: "./mocks/mock_tokenizer.pickle"
+    model_path: "./models/lstm_sentiment/model.keras"
+    tokenizer_path: "./models/lstm_sentiment/tokenizer.pickle"
     labels:
         - "Négatif"
         - "Positif"
@@ -9,3 +9,10 @@ text_classifier:
 text_preprocessor:
     _target_: text_classification.core.preprocessor.TextPreprocessor
     language: "english"
+
+api:
+    version: "1.0.0"
+    title: "Sentiment Analysis API"
+    description: "API for sentiment analysis"
+    host: "localhost"
+    port: 8000
