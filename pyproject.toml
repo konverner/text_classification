@@ -14,27 +14,28 @@ authors = [
 classifiers = [  #
     "Development Status :: 5 - Production/Stable",
     "Intended Audience :: Developers",
-    "Programming Language :: Python :: 3.9",  #
+    "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
-    "Programming Language :: Python :: 3.11",
-    "Programming Language :: Python :: 3.12",
     "Topic :: Software Development :: Libraries :: Python Modules",
 ]
 
 dependencies = [
     "omegaconf",
     "pydantic<2.0.0",
-    "nltk~=3.8.1"
+    "hydra-core~=1.3.2",
+    "nltk~=3.8.1",
+    "tensorflow==2.5.0",
+    "typing_extensions==4.12.2"
 ]
 
 [project.optional-dependencies]
 all = [
-    "pytest",
-    "mypy",
-    "ruff",
-    "pre-commit",
-    "mkdocs-material",
-    "mkdocstrings[python]",
+    "pytest",  # testing framework
+    "mypy",  # static type checker
+    "ruff",  # linter and formatter
+    "pre-commit",  # managing and maintaining pre-commit hooks
+    "mkdocs-material",  # static site generator geared towards project documentation
+    "mkdocstrings[python]",  # mkdocstrings is a MkDocs plugin that generates documentation from docstrings
 ]
 test = ["pytest"]
 docs = ["mkdocs-material", "mkdocstrings[python]"]
