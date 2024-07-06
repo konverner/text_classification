@@ -1,7 +1,7 @@
 text_classifier:
     _target_: text_classification.core.classifier.TextClassifier
-    model_path: "./models/lstm_sentiment/model.keras"
-    tokenizer_path: "./models/lstm_sentiment/tokenizer.pickle"
+    model_path: "./tests/units/mocks/mock_model.keras"
+    tokenizer_path: "./tests/units/mocks/mock_tokenizer.pickle"
     labels:
         - "Négatif"
         - "Positif"
