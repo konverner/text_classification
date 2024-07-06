@@ -1,0 +1,11 @@
+text_classifier:
+    _target_: text_classification.core.classifier.TextClassifier
+    model_path: "./mocks/mock_model.keras"
+    tokenizer_path: "./mocks/mock_tokenizer.pickle"
+    labels:
+        - "Négatif"
+        - "Positif"
+
+text_preprocessor:
+    _target_: text_classification.core.preprocessor.TextPreprocessor
+    language: "english"
