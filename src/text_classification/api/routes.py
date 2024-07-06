@@ -19,7 +19,7 @@ handler.setFormatter(formatter)
 logger.addHandler(handler)
 
 # Initialize Hydra and load configuration
-config = OmegaConf.load("src/text_classification/conf/config.yaml")
+config = OmegaConf.load(CONFIG_PATH)
 
 router = APIRouter()
 
