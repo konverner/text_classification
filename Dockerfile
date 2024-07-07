@@ -35,7 +35,7 @@ RUN pip install --no-cache-dir ".[all]"
 ENV PYTHONUNBUFFERED=1
 
 # Expose port (if needed, adjust according to your application needs)
-# EXPOSE 8000
+EXPOSE 8000
 
 # Define the command to run the application
-CMD ["python", "-m", "src/text_classification/api/main.py"]
+CMD ["python", "src/text_classification/api/main.py"]
