@@ -26,7 +26,11 @@ ENV PYTHONUNBUFFERED=1
 EXPOSE 8000
 
 # Clone the models repository
+RUN curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.rpm.sh | bash
+RUN yum install git-lfs -y
+RUN git lfs install
 RUN git clone "https://huggingface.co/konverner/lstm_sentiment" "models/lstm_sentiment"
+RUN rm -rf "models/lstm_sentiment/.git"
 
 # Define the command to run the application
 CMD ["python", "src/text_classification/api/main.py"]
