@@ -1,5 +1,6 @@
 # Use the official Python image as the base image
 FROM python:3.10-slim
+MAINTAINER Konstantin Verner <konst.verner@gmail.com>
 
 # Set the working directory in the container
 WORKDIR /app
@@ -14,15 +15,12 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/* \
 
 # Clone the models repository
-RUN git clone https://huggingface.co/konverner/lstm_sentiment models/lstm_sentiment
+RUN git clone "https://huggingface.co/konverner/lstm_sentiment" "models/lstm_sentiment"
 
 # Copy the pyproject.toml and other necessary files
 COPY pyproject.toml .
-COPY README.md .
 COPY src ./src
 COPY tests ./tests
-COPY models ./models
-COPY notebooks ./notebooks
 
 # Install build dependencies
 RUN pip install --no-cache-dir --upgrade pip setuptools wheel
@@ -40,4 +38,4 @@ ENV PYTHONUNBUFFERED=1
 # EXPOSE 8000
 
 # Define the command to run the application
-CMD ["python", "-m", "text_classification"]
+CMD ["python", "-m", "src/text_classification/api/main.py"]
