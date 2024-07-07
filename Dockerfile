@@ -26,8 +26,8 @@ ENV PYTHONUNBUFFERED=1
 EXPOSE 8000
 
 # Clone the models repository
-RUN curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.rpm.sh | bash
-RUN yum install git-lfs -y
+RUN apt-get -y update
+RUN apt-get -y install git
 RUN git lfs install
 RUN git clone "https://huggingface.co/konverner/lstm_sentiment" "models/lstm_sentiment"
 RUN rm -rf "models/lstm_sentiment/.git"
