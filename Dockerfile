@@ -25,10 +25,15 @@ ENV PYTHONUNBUFFERED=1
 # Expose port (if needed, adjust according to your application needs)
 EXPOSE 8000
 
-# Clone the models repository
-RUN apt-get -y update
-RUN apt-get -y install git
-RUN git lfs install
+# Install dependencies for git and git-lfs
+RUN apt-get update && \
+    apt-get install -y git && \
+    curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | bash && \
+    apt-get install -y git-lfs && \
+    git lfs install && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+    
 RUN git clone "https://huggingface.co/konverner/lstm_sentiment" "models/lstm_sentiment"
 RUN rm -rf "models/lstm_sentiment/.git"
 
