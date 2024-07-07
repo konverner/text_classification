@@ -3,7 +3,7 @@ name: Build and Publish Python Wheel to GitHub Packages
 on:
   push:
     branches:
-      - main  # Change to your branch if different
+      - main
 
 jobs:
   build:
@@ -31,4 +31,4 @@ jobs:
           TWINE_USERNAME: ${{ github.actor }}
           TWINE_PASSWORD: ${{ secrets.GH_TOKEN }}
         run: |
-          twine upload --repository-url https://upload.pypi.org/legacy/ dist/*
+          twine upload --repository-url https://upload.github.com/konverner/text_classification dist/*
