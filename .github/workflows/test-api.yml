@@ -10,12 +10,12 @@ jobs:
       docker:
         image: konverner/text_classification:latest
         ports:
-          - 8000:80
+          - 8000:8000
         options: > 
-          --health-cmd "curl --fail http://localhost:80/classify || exit 1"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
+          --health-cmd="curl --fail http://localhost:8000/classify || exit 1"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
 
     steps:
     - name: Checkout repository
@@ -24,17 +24,18 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
-        python-version: '3.8'
+        python-version: '3.9'
 
     - name: Install Bruno
       run: pip install bruno
 
     - name: Wait for Docker to be healthy
-      run: |
-        echo "Waiting for Docker to be healthy..."
-        while ! docker inspect --format='{{json .State.Health.Status}}' konverner/text_classification | grep healthy; do
-          sleep 1;
-        done
+      id: wait_for_service
+      uses: elgohr/Wait-For-Container-Action@v2
+      with:
+        time: 60
+        retries: 10
+        test: curl --fail http://localhost:8000/classify
 
     - name: Run Bruno tests
       run: bruno run tests/bruno
