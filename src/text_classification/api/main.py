@@ -36,9 +36,9 @@ def create_app(config_path: str = "src/text_classification/conf/config.yaml") ->
 
 
 if __name__ == "__main__":
-    config_path = "src/text_classification/conf/config.yaml"  # Default path
+    config_path = "src/text_classification/conf/config.yaml"
     config = OmegaConf.load(config_path)
     app = create_app(config_path)
     logger.info("Starting the API server...")
-    uvicorn.run(app, port=config.api.port)
+    uvicorn.run(app, host=config.api.host, port=config.api.port)
     logger.info("API server stopped.")
