@@ -1,45 +1,40 @@
-# .github/workflows/test-api.yml
-name: End-to-end testing
+name: End-to-End Testing
 
-on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+on: [push, pull_request]
 
 jobs:
-  test:
+  e2e-test:
     runs-on: ubuntu-latest
 
     services:
-      api:
-        build:
-          context: .
-          dockerfile: Dockerfile
+      docker:
+        image: konverner/text_classification:latest
         ports:
-          - 8000:8000
-        options: >-
-          --health-cmd="curl --fail http://localhost:8000/ || exit 1"
-          --health-interval=10s
-          --health-timeout=5s
-          --health-retries=5
+          - 8000:80
+        options: > 
+          --health-cmd "curl --fail http://localhost:80/classify || exit 1"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
 
     steps:
-    - name: Checkout code
+    - name: Checkout repository
       uses: actions/checkout@v2
 
-    - name: Wait for API service to be healthy
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.8'
+
+    - name: Install Bruno
+      run: pip install bruno
+
+    - name: Wait for Docker to be healthy
       run: |
-        for i in {1..10}; do
-          curl --silent --fail http://localhost:8000/ && break
-          echo "Waiting for API to be healthy..."
-          sleep 5
+        echo "Waiting for Docker to be healthy..."
+        while ! docker inspect --format='{{json .State.Health.Status}}' konverner/text_classification | grep healthy; do
+          sleep 1;
         done
 
-    - name: Install Bruno CLI
-      run: npm install -g @usebruno/cli
-
     - name: Run Bruno tests
-      run: bruno run tests/bruno/classify.bru
+      run: bruno run tests/bruno
