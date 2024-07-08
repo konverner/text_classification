@@ -40,5 +40,5 @@ if __name__ == "__main__":
     config = OmegaConf.load(config_path)
     app = create_app(config_path)
     logger.info("Starting the API server...")
-    uvicorn.run(app, host=config.api.host, port=config.api.port)
+    uvicorn.run(app, port=config.api.port)
     logger.info("API server stopped.")
