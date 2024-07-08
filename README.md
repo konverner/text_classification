@@ -2,7 +2,7 @@
 
 ## Overview
 
-This repository contains a project for text classification using a deep learning model. The project exposes an API endpoint to classify text, making it easy for users to integrate text classification capabilities into their applications. The repository is organized into several modules, including API, configuration, core functionalities, and tests.
+This repository contains a project for text classification using a deep learning model. The repository is organized into several modules, including API, configuration, core functionalities, and tests.
 
 
 ## User Guide
@@ -32,7 +32,7 @@ curl -X POST "http://localhost:8000/classify" -H "Content-Type: application/json
 |--------------|----------------------|
 | **Method**   | POST                 |
 | **Payload**  | `text` (string): The text you want to classify. |
-| **Response** | `classification` (string): The predicted classification label.<br>`confidence` (float): The confidence score of the prediction. |
+| **Response** | `sentiment` (string): The predicted classification label. |
 
 ## Developer Guide
 
