@@ -1,0 +1,45 @@
+# .github/workflows/test-api.yml
+name: End-to-end testing
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    services:
+      api:
+        build:
+          context: .
+          dockerfile: Dockerfile
+        ports:
+          - 8000:8000
+        options: >-
+          --health-cmd="curl --fail http://localhost:8000/ || exit 1"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Wait for API service to be healthy
+      run: |
+        for i in {1..10}; do
+          curl --silent --fail http://localhost:8000/ && break
+          echo "Waiting for API to be healthy..."
+          sleep 5
+        done
+
+    - name: Install Bruno CLI
+      run: npm install -g @usebruno/cli
+
+    - name: Run Bruno tests
+      run: bruno run tests/bruno/classify.bru
