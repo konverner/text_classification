@@ -4,10 +4,10 @@ from typing import Type
 from sqlalchemy import Column, DateTime, Float, Integer, String
 from sqlalchemy.ext.declarative import declarative_base
 
-DeclarativeBase: Type = declarative_base()
+Base: Type = declarative_base()
 
 
-class SentimentAnalysis(DeclarativeBase):
+class SentimentAnalysis(Base):
     """SQLAlchemy model for sentiment analysis results."""
 
     __tablename__ = "sentiment_analysis"

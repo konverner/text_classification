@@ -4,7 +4,7 @@ from fastapi import APIRouter, HTTPException
 from hydra.utils import instantiate
 from omegaconf import OmegaConf
 
-from text_classification.api.schemas import PredictionRequest, PredictionResponse
+from text_classification.api.schemas import ClassificationResult, PredictionRequest, PredictionResponse
 
 # Constants
 DEFAULT_CONFIG_PATH = "src/text_classification/conf/config.yaml"
@@ -59,35 +59,36 @@ def create_router(config_path: str = DEFAULT_CONFIG_PATH) -> APIRouter:
         Raises:
             HTTPException: If the text input is empty or an error occurs during preprocessing or prediction.
         """
-        text = request.text
-        input_text_length = len(text)
-
-        if not text:
-            logger.warning("Received empty text input.")
-            raise HTTPException(status_code=400, detail="Text input is empty")
-
-        if input_text_length > MAX_LENGTH_TEXT:
-            logger.error(f"Received too long text: {input_text_length}")
-            raise HTTPException(status_code=400, detail=f"Text input is too long, max length is {MAX_LENGTH_TEXT}")
+        texts = request.texts
+        for text in texts:
+            if not text:
+                logger.warning("Received empty text input.")
+                raise HTTPException(status_code=400, detail="One of text inputs is empty")
+            if len(text) > MAX_LENGTH_TEXT:
+                logger.error(f"Received too long text: {len(text)}")
+                raise HTTPException(
+                    status_code=400, detail=f"One of text inputs is too long, max length is {MAX_LENGTH_TEXT}"
+                )
 
         logger.info(f"Received text: {text}")
 
         # Preprocess the text
         try:
-            preprocessed_text = text_preprocessor.preprocess(text)
+            preprocessed_texts = text_preprocessor.preprocess(texts)
         except Exception as e:
             logger.error(f"Error during text preprocessing: {e}")
             raise HTTPException(status_code=500, detail="Error during text preprocessing") from e
 
-        logger.info(f"Preprocessed text: {text}")
-
         # Perform prediction
         try:
-            result = text_classifier.predict([preprocessed_text])[0]
+            results = text_classifier.predict(preprocessed_texts)
         except Exception as e:
             logger.error(f"Error during prediction: {e}")
             raise HTTPException(status_code=500, detail="Error during prediction") from e
 
-        return PredictionResponse(sentiment=result["label"])
+        classification_results = []
+        for result in results:
+            classification_results.append(ClassificationResult(text=text, label=result["label"], score=result["score"]))
+        return PredictionResponse(outputs=classification_results)
 
     return router
