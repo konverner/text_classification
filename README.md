@@ -57,45 +57,44 @@ curl -X POST "http://localhost:8000/classify" -H "Content-Type: application/json
 
      ```bash
      docker run -p 8000:8000 konverner/text_classification
+     ```
 
 **Option 2: Run with Python Script**
 
-    1. **Clone the repository**:
+1. **Clone the repository**:
 
        ```bash
        git clone https://github.com/your-username/text_classification.git
        cd text_classification
        ```
 
-    2. **Download the model**:
+2. **Download the model**:
 
-       Run the provided script to download the model:
+   Run the provided script to download the model:
 
-       ```bash
-       ./scripts/download_model.sh
-       ```
+   ```bash
+   ./scripts/download_model.sh
+   ```
 
-    3. **Install dependencies**:
-
+3. **Install dependencies**:
+    
      ```bash
      pip install .
      ```
-
+    
      or for development:
-
+    
      ```bash
      pip install .[all]
      ```
-
-
-    4. Configure application in conf/config.yaml
-
-    5. **Run the API**:
-
+    
+4. Configure the application in [conf/config.yaml](src/text_classification/conf/config.yaml)
+    
+5. **Run the API**:
+    
      ```bash
      python src/text_classification/api/main.py
      ```
-   ```
 
 ### Project Structure
 
